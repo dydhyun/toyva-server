@@ -12,14 +12,19 @@ jobs:
       - name: ssh로 ec2에 원격접속
 #        깃헙 액션 마켓플레이스에 들어가면 라이브러리s 확인가능
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          APPLICATION_PROPERTIES: ${{ secrets.APPLICATION_PROPERTIES }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
+          envs: APPLICATION_PROPERTIES
           script_stop: true
           script: |
             cd /home/ubuntu/toyva-server
+            rm -rf src/main/resources/application.properties
             git pull origin main
+            echo "$APPLICATION_PROPERTIES" > src/main/resources/application.properties
             ./gradlew clean build
             sudo fuser -k -n tcp 8080 || true
             nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
