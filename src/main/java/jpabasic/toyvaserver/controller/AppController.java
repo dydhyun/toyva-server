@@ -11,8 +11,8 @@ public class AppController {
         return "hello, home";
     }
 
-    @GetMapping("/2")
+    @GetMapping("/test")
     public String home2(){
-        return "hello,hello, home";
+        return "test";
     }
 }
