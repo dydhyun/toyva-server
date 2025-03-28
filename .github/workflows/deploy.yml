@@ -35,28 +35,22 @@ jobs:
       - name: 빌드된 파일 이름 변경하기
         run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
 
-      - name: SCP로 EC2에 빌드된 파일 전송하기 라이브러리사용
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: project.jar
-          target: /home/ubuntu/toyva-server/tobe
+      - name: 압축하기
+        run: tar -czvf $GITHUB_SHA.tar.gz project.jar appspec.yml scripts
 
-      - name: ssh로 ec2에 원격접속
-        #        깃헙 액션 마켓플레이스에 들어가면 라이브러리s 확인가능
-        uses: appleboy/ssh-action@v1.0.3
+      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정하기
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script_stop: true
-          script: |
-            rm -rf /home/ubuntu/toyva-server/current
-            mkdir /home/ubuntu/toyva-server/current
-            mv /home/ubuntu/toyva-server/tobe/project.jar /home/ubuntu/toyva-server/current/project.jar
-            cd /home/ubuntu/toyva-server/current
-            sudo fuser -k -n tcp 8080 || true
-            nohup java -jar project.jar > ./output.log 2>&1 &
-            rm -rf /home/ubuntu/toyva-server/tobe
+          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+
+      - name: S3에 프로젝트 폴더 업로드 하기
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://toyva-server/$GITHUB_SHA.tar.gz
+
+      - name: CodeDeploy를 활용해 EC2에 프로젝트 코드를 배포하라 명령.
+        run: aws deploy create-deployment
+          --application-name toyva-server
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name Production
+          --s3-location bucket=toyva-server,bundleType=tgz,key=$GITHUB_SHA.tar.gz
