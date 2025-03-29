@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index 홈</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      background-color: #343a40 !important;
+    }
+    .navbar-brand, .nav-link {
+      color: white !important;
+    }
+    .content-container {
+      margin-top: 20px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+    .sidebar {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      min-height: 150px; /* 첫 번째 카드와 높이 맞춤 */
+    }
+    .kakao-btn {
+      background-color: #fee500;
+      color: #3c1e1e;
+      font-weight: bold;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .kakao-btn img {
+      width: 20px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 네비게이션 바 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">Index 홈</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">글쓰기</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">내 블로그</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- 메인 컨테이너 -->
+<div class="container content-container">
+  <div class="row d-flex align-items-start">
+    <!-- 메인 콘텐츠 영역 -->
+    <div class="col-md-8">
+      <h2>최근 게시글</h2>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">JSP 웹 개발 기초</h5>
+          <h6 class="card-subtitle mb-2 text-muted">2025-03-29</h6>
+          <p class="card-text">JSP를 사용한 기본적인 웹 개발을 알아봅니다.</p>
+          <a href="#" class="btn btn-primary">자세히 보기</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Spring Boot와 JSP 연동</h5>
+          <h6 class="card-subtitle mb-2 text-muted">2025-03-28</h6>
+          <p class="card-text">Spring Boot에서 JSP를 사용하는 방법을 설명합니다.</p>
+          <a href="#" class="btn btn-primary">자세히 보기</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 사이드바 -->
+    <div class="col-md-4">
+      <h2>사이드바</h2>
+      <!-- 로그인 섹션 -->
+      <div class="sidebar mb-4 text-center">
+        <h4>카카오 계정으로 시작하기</h4>
+        <button class="kakao-btn" data-bs-toggle="modal" data-bs-target="#authModal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" alt="Kakao">
+          로그인 / 회원가입
+        </button>
+      </div>
+
+      <!-- 인기 글 섹션 -->
+      <div class="sidebar">
+        <h4>인기 글</h4>
+        <ul class="list-unstyled">
+          <li><a href="#">JSP 웹 개발 기초</a></li>
+          <li><a href="#">Spring Boot와 JSP 연동</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 로그인 / 회원가입 모달 -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="authModalLabel">카카오 계정으로 시작하기</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <button class="kakao-btn" onclick="kakaoLogin()">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/KakaoTalk_logo.svg" alt="Kakao">
+          카카오 계정으로 로그인 / 회원가입
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function kakaoLogin() {
+    alert("카카오 로그인 기능은 백엔드 연동이 필요합니다.");
+    // 실제 구현: 카카오 API 연동 (OAuth 2.0)
+    // window.location.href = "https://kauth.kakao.com/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code";
+  }
+</script>
+
+</body>
+</html>
