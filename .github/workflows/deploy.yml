@@ -32,25 +32,35 @@ jobs:
       - name: 테스트 및 빌드하기
         run: ./gradlew clean build
 
-      - name: 빌드된 파일 이름 변경하기
-        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
-
-      - name: 압축하기
-        run: tar -czvf $GITHUB_SHA.tar.gz project.jar appspec.yml scripts
-
-      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정하기
+      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-northeast-2
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: S3에 프로젝트 폴더 업로드 하기
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://toyva-server/$GITHUB_SHA.tar.gz
+      - name: ECR에 로그인하기
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: CodeDeploy를 활용해 EC2에 프로젝트 코드를 배포하라 명령.
-        run: aws deploy create-deployment
-          --application-name toyva-server
-          --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name Production
-          --s3-location bucket=toyva-server,bundleType=tgz,key=$GITHUB_SHA.tar.gz
+      - name: Docker 이미지 생성
+        run: docker build -t toyva-server .
+
+      - name: Docker 이미지 Tag 붙이기
+        run: docker tag toyva-server ${{ step.login-ecr.outputs.registry }}/toyva-server:latest
+
+      - name: ECR에 Docker 이미지 push하기
+        run: docker push ${{ steps.login-ecr.output.registry }}/toyva-server:latest
+
+      - name: SSH로 EC2에 접속하기
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            docker stop toyva-server || true
+            docker rm toyva-server || true
+            docker pull ${{ steps.login-ecr.outputs.registry }}/toyva-server:latest
+            docker run -d --name toyva-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/toyva-server:latest
