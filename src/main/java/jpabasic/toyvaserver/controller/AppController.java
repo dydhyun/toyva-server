@@ -13,6 +13,6 @@ public class AppController {
 
     @GetMapping("/test")
     public String home2(){
-        return "test";
+        return "hello docker test";
     }
 }
