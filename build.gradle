@@ -27,8 +27,9 @@ dependencies {
     // JSP 관련 의존성 추가
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // JSP 지원을 위한 의존성
     compileOnly 'jakarta.servlet:jakarta.servlet-api' // 서블릿 API
-    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0' // JSP API
-    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-impl:2.0.0' // JSTL 구현체
+    compileOnly 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.1.1'// JSP API
+    // https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api
+    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
 }
 
 tasks.named('test') {
