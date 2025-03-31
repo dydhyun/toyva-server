@@ -1,1 +1,1 @@
-turnOnEC2
+updateEC2host
