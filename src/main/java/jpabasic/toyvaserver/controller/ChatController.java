@@ -9,13 +9,13 @@ public class ChatController {
 
     @GetMapping("testchatserver")
     public String test() {
-        return "forward:/chat/test.jsp";
+        return "test";
     }
 
     @GetMapping("chat")
     public String chatPage(){
         System.out.println("connect /chat");
-        return "forward:/chat/chat.jsp";
+        return "chat";
     }
 
 }
