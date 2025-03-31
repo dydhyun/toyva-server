@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ChatController {
 
-    @GetMapping("/testchatserver")
+    @GetMapping("testchatserver")
     public String test() {
-        return "test";
+        return "forward:/chat/test.jsp";
     }
 
-    @GetMapping("/chat")
+    @GetMapping("chat")
     public String chatPage(){
         System.out.println("connect /chat");
-        return "chat";
+        return "forward:/chat/chat.jsp";
     }
 
 }
