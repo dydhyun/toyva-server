@@ -36,9 +36,9 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-processResources {
-    from('src/main/webapp') {
-        include '**/*.jsp'
-    }
-}
+//processResources {
+//    from('src/main/webapp') {
+//        include '**/*.jsp'
+//    }
+//}
 
