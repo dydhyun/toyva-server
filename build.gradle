@@ -22,6 +22,12 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    // JSP 관련 의존성 추가
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' // JSP 지원을 위한 의존성
+    compileOnly 'jakarta.servlet:jakarta.servlet-api' // 서블릿 API
+    compileOnly 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0' // JSP API
 }
 
 tasks.named('test') {
