@@ -12,7 +12,12 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AppRestController {
 
-    @GetMapping("chat")
+    @GetMapping("/test")
+    public String home2(){
+        return "hello docker test";
+    }
+
+    @GetMapping("v0/chat")
     public Map<String, String> getChatData() {
         Map<String, String> response = new HashMap<>();
         response.put("message", "채팅 API입니다!");

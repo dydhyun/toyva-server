@@ -22,10 +22,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
         // (ws://localhost:8080/ws/chat 로 요청 들어오면, WebSocket 통신 시작)
         registry.addHandler(webSocketHandler, "/ws/chat")
                 .setAllowedOrigins("*"); // CORS 허용 -> 모든 도메인(web, 모바일)에서 접속 허용
-//                    .withSockJS(); // SockJS를 사용하여 WebSocket을 지원하는 대체 경로 추가
 
-        registry.addHandler(webSocketHandler, "/websocket")
+        registry.addHandler(webSocketHandler, "/test/websocket")
                 .setAllowedOrigins("*"); // CORS 허용 -> 모든 도메인(web, 모바일)에서 접속 허용
-//
+
     }
 }
