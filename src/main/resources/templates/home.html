@@ -1,13 +1,26 @@
 <!doctype html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/header::headerHead">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Game_Home</title>
 </head>
 <body>
-    <h1>hello home</h1>
+<nav th:replace="fragments/header::header"></nav>
+
+<h1>hello home</h1>
+
+<div class="sidebar sidebar-card text-center">
+    <h4>메인으로</h4>
+    <button id="goToMainButton" class="btn btn-primary">Game Home</button>
+</div>
+
+<script>
+    document.getElementById("goToMainButton").addEventListener("click", function() {
+        window.history.back(); // 이전 페이지로 이동
+    });
+</script>
 </body>
 </html>
