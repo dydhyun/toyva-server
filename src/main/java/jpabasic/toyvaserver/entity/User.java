@@ -20,6 +20,7 @@ public class User {
     private LocalDateTime createdAt;
     private String status;
 
+    // jpa 가 DB에 넣기 직전에 추가하도록 관리
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
