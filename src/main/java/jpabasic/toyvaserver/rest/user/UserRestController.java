@@ -28,6 +28,6 @@ public class UserRestController {
                 .build();
 
         userRepository.save(user);
-        return ResponseEntity.ok("회원가입 성공!");
+        return ResponseEntity.ok("회원가입 성공!!");
     }
 }
