@@ -1,9 +1,13 @@
 package jpabasic.toyvaserver.rest.user;
 
+import jpabasic.toyvaserver.dto.RegisteredUserDto;
+import jpabasic.toyvaserver.dto.ResponseDto;
 import jpabasic.toyvaserver.dto.UserDto;
-import jpabasic.toyvaserver.entity.User;
-import jpabasic.toyvaserver.repository.user.UserRepository;
+import jpabasic.toyvaserver.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,19 +19,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserRestController {
 
-    private final UserRepository userRepository;
+    private static final Logger log = LoggerFactory.getLogger(UserRestController.class);
+    private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody UserDto userDto){
+    public ResponseEntity<?> signup(@RequestBody UserDto userDto){
+        ResponseDto<RegisteredUserDto> responseDto = new ResponseDto<>();
 
-        User user = User.builder()
-                .userId(userDto.getUserId())
-                .userPw(userDto.getUserPw())
-                .nickname(userDto.getNickname())
-                .email(userDto.getEmail())
-                .build();
+        try {
+            log.info("signup UserDto : {}", userDto.toString());
 
-        userRepository.save(user);
-        return ResponseEntity.ok("회원가입 성공!");
+            RegisteredUserDto registeredUserDto = userService.register(userDto);
+
+            responseDto.setItem(registeredUserDto);
+            responseDto.setStatusCode(HttpStatus.OK.value());
+            responseDto.setStatusMessage("created");
+
+            return ResponseEntity.ok(responseDto);
+        } catch (Exception e){
+            log.error("signup err : {}", e.getMessage());
+
+            responseDto.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            responseDto.setStatusMessage(e.getMessage());
+            responseDto.setErrorMessage(e.getMessage());
+
+            return ResponseEntity.internalServerError().body(responseDto);
+        }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserDto userDto){
+        ResponseDto<RegisteredUserDto> responseDto = new ResponseDto<>();
+
+        try {
+            log.info("login user");
+
+            return ResponseEntity.ok(responseDto);
+        } catch (Exception e){
+
+            return ResponseEntity.internalServerError().body(responseDto);
+        }
+    }
+
+
 }

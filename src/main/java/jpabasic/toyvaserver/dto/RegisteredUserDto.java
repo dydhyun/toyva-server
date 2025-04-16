@@ -9,14 +9,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserDto {
-    // 클라이언트에서 서버로 보내는 객체를 담는 Dto
-    private Long id;
+public class RegisteredUserDto {
+    // 서버에서 클라이언트로 보내는 용도의 Dto
     private String userId;
-    private String userPw;
     private String nickname;
     private String email;
-    private String status;
     private LocalDateTime createdAt;
 
 }
