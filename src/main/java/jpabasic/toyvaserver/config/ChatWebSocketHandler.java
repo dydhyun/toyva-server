@@ -1,5 +1,7 @@
 package jpabasic.toyvaserver.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jpabasic.toyvaserver.dto.ChatMessageDto;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -29,13 +31,20 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     }
 
     // 메세지 전송핸들부 : 클라이언트에게 메세지 전송받았을 때
+    // TextMessage : WebSocket 에서 텍스트를 주고받을 때 텍스트(문자열)을 감싸는 객체. SpringWebSocket 에서 제공하는 클래스.
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        String payload = message.getPayload();
-        System.out.println("수신한 메시지: " + payload);
+        String payload = message.getPayload(); // 메시지 내용 받기
+
+        ObjectMapper objectMapper = new ObjectMapper(); // Jackson = json 처리 라이브러리. 의 클래스
+        ChatMessageDto chatMessageDto = objectMapper.readValue(payload, ChatMessageDto.class); // json -> 객체로 변환
+
+        System.out.println("보낸사람: " + chatMessageDto.getSender());
+        System.out.println("내용: " + chatMessageDto.getContent());
 
         for (WebSocketSession s : sessions) {
-            s.sendMessage(new TextMessage(payload));
+            String jsonMessage = objectMapper.writeValueAsString(chatMessageDto); // java 객체 -> json 변환
+            s.sendMessage(new TextMessage(jsonMessage)); // 모든 세션에 전송
         }
     }
 
@@ -45,4 +54,5 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         sessions.remove(session);
         System.out.println("클라이언트 연결 종료: " + session.getId());
     }
+    // 부모클래스에서 session 이 NonNull 이라서 발생한 경고. 하지만 세션은 항상 들어오기에 무시하겠음
 }

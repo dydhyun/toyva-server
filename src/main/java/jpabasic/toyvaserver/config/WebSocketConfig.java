@@ -21,10 +21,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
         // WebSocket 엔드포인트를 "/ws/chat"으로 설정
         // (ws://localhost:8080/ws/chat 로 요청 들어오면, WebSocket 통신 시작)
         registry.addHandler(webSocketHandler, "/ws/chat")
-                .setAllowedOrigins("http://localhost:3000"); // CORS 허용 -> 모든 도메인(web, 모바일)에서 접속 허용
+                .setAllowedOrigins("http://localhost:3000");
 
         registry.addHandler(webSocketHandler, "/ws/TestWebsocket")
-                .setAllowedOrigins("http://localhost:3000"); // CORS 허용 -> 모든 도메인(web, 모바일)에서 접속 허용
+                .setAllowedOrigins("http://localhost:3000"); // ws에 대한 CORS 허용
 
     }
 }
