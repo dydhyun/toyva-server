@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class UserDto {
-    // 클라이언트에서 서버로 보내는 객체를 담는 Dto
+    // 회원가입 시 클라이언트에서 서버로 보내는 객체를 담는 Dto
     private Long id;
     private String userId;
     private String userPw;

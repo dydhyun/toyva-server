@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class RegisteredUserDto {
-    // 서버에서 클라이언트로 보내는 용도의 Dto
+    // 로그인한 유저에 대해 서버에서 클라이언트로 보내는 용도의 Dto
     private String userId;
     private String nickname;
     private String email;

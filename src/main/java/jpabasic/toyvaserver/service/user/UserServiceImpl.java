@@ -16,13 +16,17 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public Map<String, String> memberIdCheck(String memberId) {
-        return Map.of();
+    public Boolean userIdCheck(String userId) {
+
+        if (userRepository.findByUserId(userId).isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Map<String, String> nicknameCheck(String nickname) {
-        return Map.of();
+    public Boolean nicknameCheck(String nickname) {
+        return false;
     }
 
     @Override
@@ -40,7 +44,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto login(UserDto userDto) {
+    public RegisteredUserDto login(UserDto userDto) {
+
+//        RegisteredUserDto registeredUserDto = userRepository.
+//        String userId = userRepository.
         return null;
     }
 

@@ -6,13 +6,13 @@ import jpabasic.toyvaserver.dto.UserDto;
 import java.util.Map;
 
 public interface UserService {
-    Map<String, String> memberIdCheck(String memberId);
+    Boolean userIdCheck(String userId);
 
-    Map<String, String> nicknameCheck(String nickname);
+    Boolean nicknameCheck(String nickname);
 
     RegisteredUserDto register(UserDto userDto);
 
-    UserDto login(UserDto userDto);
+    RegisteredUserDto login(UserDto userDto);
 
     String findByEmail(String email);
 
