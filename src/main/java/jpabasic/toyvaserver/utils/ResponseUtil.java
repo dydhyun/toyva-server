@@ -9,7 +9,7 @@ public class ResponseUtil {
         dto.setStatusCode(code);
         dto.setStatusMessage(message);
         dto.setItem(data);
-        
+
         return ResponseEntity.ok(dto);
     }
 
