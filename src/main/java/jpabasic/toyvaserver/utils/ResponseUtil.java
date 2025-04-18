@@ -19,7 +19,7 @@ public class ResponseUtil {
         dto.setStatusMessage(message);
         dto.setErrorMessage(message);
         dto.setItem(data);
-        
+
         return ResponseEntity.status(code).body(dto);
     }
 }
